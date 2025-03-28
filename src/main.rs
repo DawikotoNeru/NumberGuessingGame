@@ -100,6 +100,9 @@ fn main() {
                         println!("Winner!!");
                         println!("\nAttempts: {}", player_error_quantity);
                         player_score += reward;
+                        println!(" ");
+                        println!("+{}", reward);
+                        println!(" ");
                         show_score(player_score);
 
                         secret_num_message(secret_num);
