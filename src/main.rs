@@ -106,7 +106,7 @@ fn main() {
             println!(" ");
         }
 
-        println!("Deseja rejogar?: yes, no");
+        println!("Do you want to play again?: (yes) (no)");
 
         print!("> ");
         stdout()
@@ -114,7 +114,7 @@ fn main() {
             .unwrap();
         stdin()
             .read_line(&mut replay_option)
-            .expect("Erro de escolha");
+            .expect("Choice error");
 
         replay = if replay_option.trim().to_lowercase() == "yes" { true } else { false };
 
