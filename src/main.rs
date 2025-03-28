@@ -130,7 +130,7 @@ fn main() {
                         continue;
                     }
                 }
-                Err(_) => println!("Insert only positive numbers"),
+                Err(_) => { println!("Insert only positive numbers"); continue; }
             }
         } else {
             secret_num_message(secret_num);
