@@ -13,7 +13,10 @@ If you lose, the game is over, and you can still decide whether you want to play
 
 You can choose the difficulty of the game, which will change the number of chances you have and increase your final reward. If you enter letters or an option outside the scope, the program will set the easy mode by default.
 
-# Exec
+# How to run
+```
+git clone https://github.com/DawikotoNeru/NumberGuessingGame.git
+```
 Windows:
   run the .bat file "exec_win" with two clicks
 
