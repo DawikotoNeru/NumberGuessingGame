@@ -1,6 +1,5 @@
 use rand::Rng;
 use std::io::{stdin, stdout, Write};
-use std::ptr::copy;
 
 enum Difficulties {
     Easy,
