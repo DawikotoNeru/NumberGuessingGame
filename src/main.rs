@@ -8,6 +8,11 @@ enum Difficulties{
     VeryHard
 }
 
+fn secret_num_message(secret_num: usize){
+    println!(" ");
+    println!("This is a secret number: {}", secret_num);
+    println!(" ");
+}
 fn welcome_message(){
     println!("== Welcome to the number guessing game ==");
     print!("\n");
@@ -31,6 +36,9 @@ fn analyze_guess(player_guess: usize, secret_num: usize){
     }
 }
 
+fn show_score(score: usize){
+    println!("Your score: {}", score);
+}
 fn main() {
 
     let mut maximum_guess: u32 = 12;
@@ -38,6 +46,8 @@ fn main() {
     let mut secret_num = rng.random_range(1..=100);
     let difficulties = vec!(Difficulties::Easy, Difficulties::Medium, Difficulties::Hard, Difficulties::VeryHard);
     let mut player_error_quantity: u32 = 0;
+    let mut player_score: usize = 0;
+    let mut reward: usize = 100;
 
     welcome_message();
     options_message();
@@ -55,10 +65,10 @@ fn main() {
 
     if player_choosing > 0 && player_choosing <= difficulties.len() {
         match difficulties.get(player_choosing - 1) {
-            Some(Difficulties::Easy) => { maximum_guess = 12; }
-            Some(Difficulties::Medium) => { maximum_guess = 8; }
-            Some(Difficulties::Hard) => { maximum_guess = 5; }
-            Some(Difficulties::VeryHard) => { maximum_guess = 3; }
+            Some(Difficulties::Easy) => { maximum_guess = 12; reward = 100;}
+            Some(Difficulties::Medium) => { maximum_guess = 8; reward = 250;}
+            Some(Difficulties::Hard) => { maximum_guess = 5; reward = 400;}
+            Some(Difficulties::VeryHard) => { maximum_guess = 3; reward = 550;}
             _ => {
                 println!("Erro")
             }
@@ -89,11 +99,13 @@ fn main() {
                     if num == secret_num{
                         println!("Winner!!");
                         println!("\nAttempts: {}", player_error_quantity);
+                        player_score += reward;
+                        show_score(player_score);
 
-                        println!("This is a secret number: {}", secret_num);
-                        println!(" ");
+                        secret_num_message(secret_num);
                     } else {
                         analyze_guess(num, secret_num);
+                        reward -= 5;
                         player_error_quantity += 1;
                         continue;
                     }
@@ -102,8 +114,9 @@ fn main() {
             }
 
         } else {
-            println!("This is a secret number: {}", secret_num);
-            println!(" ");
+            secret_num_message(secret_num);
+            show_score(player_score);
+            player_score = 0;
         }
 
         println!("Do you want to play again?: (yes) (no)");
