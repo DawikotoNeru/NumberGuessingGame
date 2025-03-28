@@ -22,7 +22,7 @@ fn welcome_message(){
 }
 
 fn options_message(){
-    println!("(1) - Easy\n(2) - Medium\n(3) - Hard\n(4) - VeryHard");
+    println!("(1) - Easy\n(2) - Medium\n(3) - Hard\n(4) - VeryHard\n(0) - Quit");
     println!("- Obs: If you choose an option outside the scope, the 'easy' difficulty will be the default.");
     print!("\n");
     println!("- What is the desired difficulty?")
@@ -73,14 +73,15 @@ fn main() {
                 println!("Erro")
             }
         }
+    } else if player_choosing == 0 {
+        println!("Ending game....");
+        return;
     } else {
         maximum_guess = 12;
         println!("Invalid option. Easy difficulty set as default")
     }
 
     loop {
-
-        let mut replay = false;
         let mut replay_option:String = String::new();
 
         if player_error_quantity <= maximum_guess {
@@ -132,12 +133,13 @@ fn main() {
             .read_line(&mut replay_option)
             .expect("Choice error");
 
-        replay = if replay_option.trim().to_lowercase() == "yes" { true } else { false };
+        let replay: bool = if replay_option.trim().to_lowercase() == "yes" { true } else { false };
 
         if replay {
+            println!(" ");
+            println!("Starting new round...");
             player_error_quantity = 0;
             secret_num = rng.random_range(1..=100);
-            replay = false;
             continue;
         }
         println!("Game over, Thanks for playing.");
