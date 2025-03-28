@@ -35,7 +35,7 @@ fn main() {
 
     let mut maximum_guess: u32 = 12;
     let mut rng = rand::rng();
-    let secret_num = rng.random_range(1..=100);
+    let mut secret_num = rng.random_range(1..=100);
     let difficulties = vec!(Difficulties::Easy, Difficulties::Medium, Difficulties::Hard, Difficulties::VeryHard);
     let mut player_error_quantity: u32 = 0;
 
@@ -69,9 +69,15 @@ fn main() {
     }
 
     loop {
+
+        let mut replay = false;
+        let mut replay_option:String = String::new();
+
         if player_error_quantity <= maximum_guess {
             print!("Enter your guess: ");
-            stdout().flush().unwrap();
+            stdout()
+                .flush()
+                .unwrap();
 
             let mut player_guess: String = String::new();
             stdin()
@@ -83,19 +89,43 @@ fn main() {
                     if num == secret_num{
                         println!("Winner!!");
                         println!("\nAttempts: {}", player_error_quantity);
-                        break;
+
+                        println!("This is a secret number: {}", secret_num);
+                        println!(" ");
                     } else {
                         analyze_guess(num, secret_num);
                         player_error_quantity += 1;
+                        continue;
                     }
                 }
                 Err(_) => println!("Insert only positive numbers")
             }
 
         } else {
-            println!("Game over, Thanks for playing.");
-            break;
+            println!("This is a secret number: {}", secret_num);
+            println!(" ");
         }
+
+        println!("Deseja rejogar?: yes, no");
+
+        print!("> ");
+        stdout()
+            .flush()
+            .unwrap();
+        stdin()
+            .read_line(&mut replay_option)
+            .expect("Erro de escolha");
+
+        replay = if replay_option.trim().to_lowercase() == "yes" { true } else { false };
+
+        if replay {
+            player_error_quantity = 0;
+            secret_num = rng.random_range(1..=100);
+            replay = false;
+            continue;
+        }
+        println!("Game over, Thanks for playing.");
+        break;
     }
 
 }
