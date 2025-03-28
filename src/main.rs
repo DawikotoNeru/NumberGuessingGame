@@ -1,19 +1,19 @@
-use std::io::{stdin, stdout, Write};
 use rand::Rng;
+use std::io::{stdin, stdout, Write};
 
-enum Difficulties{
+enum Difficulties {
     Easy,
     Medium,
     Hard,
-    VeryHard
+    VeryHard,
 }
 
-fn secret_num_message(secret_num: usize){
+fn secret_num_message(secret_num: usize) {
     println!(" ");
     println!("This is a secret number: {}", secret_num);
     println!(" ");
 }
-fn welcome_message(){
+fn welcome_message() {
     println!("== Welcome to the number guessing game ==");
     print!("\n");
     println!("- The game will have 3 difficulties, which will influence the");
@@ -21,14 +21,14 @@ fn welcome_message(){
     println!("- number of chances you have to guess the secret number");
 }
 
-fn options_message(){
+fn options_message() {
     println!("(1) - Easy\n(2) - Medium\n(3) - Hard\n(4) - VeryHard\n(0) - Quit");
     println!("- Obs: If you choose an option outside the scope, the 'easy' difficulty will be the default.");
     print!("\n");
     println!("- What is the desired difficulty?")
 }
 
-fn analyze_guess(player_guess: usize, secret_num: usize){
+fn analyze_guess(player_guess: usize, secret_num: usize) {
     if player_guess > secret_num {
         println!("Your number is greater than the secret number");
     } else {
@@ -36,15 +36,19 @@ fn analyze_guess(player_guess: usize, secret_num: usize){
     }
 }
 
-fn show_score(score: usize){
+fn show_score(score: usize) {
     println!("Your score: {}", score);
 }
 fn main() {
-
     let mut maximum_guess: u32 = 12;
     let mut rng = rand::rng();
     let mut secret_num = rng.random_range(1..=100);
-    let difficulties = vec!(Difficulties::Easy, Difficulties::Medium, Difficulties::Hard, Difficulties::VeryHard);
+    let difficulties = vec![
+        Difficulties::Easy,
+        Difficulties::Medium,
+        Difficulties::Hard,
+        Difficulties::VeryHard,
+    ];
     let mut player_error_quantity: u32 = 0;
     let mut player_score: usize = 0;
     let mut reward: usize = 100;
@@ -60,15 +64,29 @@ fn main() {
         .read_line(&mut player_choosing)
         .expect("input error");
 
-    let player_choosing: usize = player_choosing.trim().parse::<usize>().unwrap_or_else(|_| 1);
-
+    let player_choosing: usize = player_choosing
+        .trim()
+        .parse::<usize>()
+        .unwrap_or_else(|_| 1);
 
     if player_choosing > 0 && player_choosing <= difficulties.len() {
         match difficulties.get(player_choosing - 1) {
-            Some(Difficulties::Easy) => { maximum_guess = 12; reward = 100;}
-            Some(Difficulties::Medium) => { maximum_guess = 8; reward = 250;}
-            Some(Difficulties::Hard) => { maximum_guess = 5; reward = 400;}
-            Some(Difficulties::VeryHard) => { maximum_guess = 3; reward = 550;}
+            Some(Difficulties::Easy) => {
+                maximum_guess = 12;
+                reward = 100;
+            }
+            Some(Difficulties::Medium) => {
+                maximum_guess = 8;
+                reward = 250;
+            }
+            Some(Difficulties::Hard) => {
+                maximum_guess = 5;
+                reward = 400;
+            }
+            Some(Difficulties::VeryHard) => {
+                maximum_guess = 3;
+                reward = 550;
+            }
             _ => {
                 println!("Erro")
             }
@@ -82,13 +100,11 @@ fn main() {
     }
 
     loop {
-        let mut replay_option:String = String::new();
+        let mut replay_option: String = String::new();
 
         if player_error_quantity <= maximum_guess {
             print!("Enter your guess: ");
-            stdout()
-                .flush()
-                .unwrap();
+            stdout().flush().unwrap();
 
             let mut player_guess: String = String::new();
             stdin()
@@ -97,7 +113,7 @@ fn main() {
 
             match player_guess.trim().parse() {
                 Ok(num) => {
-                    if num == secret_num{
+                    if num == secret_num {
                         println!("Winner!!");
                         println!("\nAttempts: {}", player_error_quantity);
                         player_score += reward;
@@ -114,9 +130,8 @@ fn main() {
                         continue;
                     }
                 }
-                Err(_) => println!("Insert only positive numbers")
+                Err(_) => println!("Insert only positive numbers"),
             }
-
         } else {
             secret_num_message(secret_num);
             show_score(player_score);
@@ -126,14 +141,14 @@ fn main() {
         println!("Do you want to play again?: (yes) (no)");
 
         print!("> ");
-        stdout()
-            .flush()
-            .unwrap();
-        stdin()
-            .read_line(&mut replay_option)
-            .expect("Choice error");
+        stdout().flush().unwrap();
+        stdin().read_line(&mut replay_option).expect("Choice error");
 
-        let replay: bool = if replay_option.trim().to_lowercase() == "yes" { true } else { false };
+        let replay: bool = if replay_option.trim().to_lowercase() == "yes" {
+            true
+        } else {
+            false
+        };
 
         if replay {
             println!(" ");
@@ -145,5 +160,4 @@ fn main() {
         println!("Game over, Thanks for playing.");
         break;
     }
-
 }
