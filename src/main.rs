@@ -1,5 +1,6 @@
 use rand::Rng;
 use std::io::{stdin, stdout, Write};
+use std::ptr::copy;
 
 enum Difficulties {
     Easy,
@@ -15,24 +16,28 @@ fn secret_num_message(secret_num: usize) {
 }
 fn welcome_message() {
     println!("== Welcome to the number guessing game ==");
-    print!("\n");
+    println!(" ");
     println!("- The game will have 3 difficulties, which will influence the");
-    print!("\n");
+    println!(" ");
     println!("- number of chances you have to guess the secret number");
 }
 
 fn options_message() {
+    println!(" ");
     println!("(1) - Easy\n(2) - Medium\n(3) - Hard\n(4) - VeryHard\n(0) - Quit");
+    println!(" ");
     println!("- Obs: If you choose an option outside the scope, the 'easy' difficulty will be the default.");
-    print!("\n");
+    println!(" ");
     println!("- What is the desired difficulty?")
 }
 
 fn analyze_guess(player_guess: usize, secret_num: usize) {
     if player_guess > secret_num {
         println!("Your number is greater than the secret number");
+        println!(" ");
     } else {
         println!("Your number is smaller than the secret number");
+        println!(" ");
     }
 }
 
@@ -99,6 +104,8 @@ fn main() {
         println!("Invalid option. Easy difficulty set as default")
     }
 
+    let reward_copy = reward.clone();
+
     loop {
         let mut replay_option: String = String::new();
 
@@ -110,6 +117,8 @@ fn main() {
             stdin()
                 .read_line(&mut player_guess)
                 .expect("Error writing your guess");
+
+            println!(" ");
 
             match player_guess.trim().parse() {
                 Ok(num) => {
@@ -125,7 +134,8 @@ fn main() {
                         secret_num_message(secret_num);
                     } else {
                         analyze_guess(num, secret_num);
-                        reward -= 5;
+                        if reward!=0 {reward -= 5;}
+
                         player_error_quantity += 1;
                         continue;
                     }
@@ -153,10 +163,13 @@ fn main() {
         if replay {
             println!(" ");
             println!("Starting new round...");
+            println!(" ");
             player_error_quantity = 0;
             secret_num = rng.random_range(1..=100);
+            reward = reward_copy;
             continue;
         }
+        println!(" ");
         println!("Game over, Thanks for playing.");
         break;
     }
