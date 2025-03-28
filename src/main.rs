@@ -16,8 +16,7 @@ fn secret_num_message(secret_num: usize) {
 fn welcome_message() {
     println!("== Welcome to the number guessing game ==");
     println!(" ");
-    println!("- The game will have 3 difficulties, which will influence the");
-    println!(" ");
+    println!("- The game will have 4 difficulties, which will influence the");
     println!("- number of chances you have to guess the secret number");
 }
 
