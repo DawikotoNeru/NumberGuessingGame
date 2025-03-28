@@ -1,6 +1,7 @@
 # NumberGuessingGame
 
 This is a simple project for a number guessing game made in Rust. The idea came from the website "roadmap" which gave the idea of ​​creating a simple number guessing game.
+https://roadmap.sh/projects/number-guessing-game
 
 # Rules
 
