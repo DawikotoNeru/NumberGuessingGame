@@ -45,7 +45,7 @@ fn analyze_guess(player_guess: usize, secret_num: usize) {
 }
 
 fn show_score(score: usize) {
-    println!("Your score: {}", score);
+    println!("|🐤  Your score: {} 🐤|", score);
 }
 fn main() {
     let mut maximum_guess: u32 = 12;
@@ -128,7 +128,7 @@ fn main() {
             match player_guess.trim().parse() {
                 Ok(num) => {
                     if num == secret_num {
-                        println!("Winner!!");
+                        println!("|🎂  Winner!! 🎂 |");
                         println!("\nAttempts: {}", player_error_quantity);
                         player_score += reward;
                         println!(" ");
@@ -176,8 +176,9 @@ fn main() {
             reward = reward_copy;
             continue;
         }
+        clear_terminal();
         println!(" ");
-        println!("Game over, Thanks for playing.");
+        println!("🌞 Game over, Thanks for playing 🌞");
         break;
     }
 }
