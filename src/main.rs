@@ -23,6 +23,8 @@ fn welcome_message() {
     println!(" ");
     println!("- The game will have 4 difficulties, which will influence the");
     println!("- number of chances you have to guess the secret number");
+    println!(" ");
+    println!("- Range: 1 to 100");
 }
 
 fn options_message() {
