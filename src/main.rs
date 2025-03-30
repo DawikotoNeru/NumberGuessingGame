@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::process::Command;
 use std::io::{stdin, stdout, Write};
 
 enum Difficulties {
@@ -6,6 +7,10 @@ enum Difficulties {
     Medium,
     Hard,
     VeryHard,
+}
+
+fn clear_terminal(){
+    Command::new("cmd").args(&["/C", "cls"]).status().unwrap();
 }
 
 fn secret_num_message(secret_num: usize) {
@@ -22,7 +27,7 @@ fn welcome_message() {
 
 fn options_message() {
     println!(" ");
-    println!("(1) - Easy\n(2) - Medium\n(3) - Hard\n(4) - VeryHard\n(0) - Quit");
+    println!("(1) - Easy (12 chances)\n(2) - Medium (8 chances)\n(3) - Hard (5 chances)\n(4) - VeryHard (3 chances)\n(0) - Quit");
     println!(" ");
     println!("- Obs: If you choose an option outside the scope, the 'easy' difficulty will be the default.");
     println!(" ");
@@ -104,6 +109,8 @@ fn main() {
 
     let reward_copy = reward.clone();
 
+    clear_terminal();
+
     loop {
         let mut replay_option: String = String::new();
 
@@ -141,12 +148,13 @@ fn main() {
                 Err(_) => { println!("Insert only positive numbers"); continue; }
             }
         } else {
+            println!("|❌  You lost the game ❌ |");
             secret_num_message(secret_num);
             show_score(player_score);
             player_score = 0;
         }
 
-        println!("Do you want to play again?: (yes) (no)");
+        println!("> Do you want to play again?: (yes) (no)");
 
         print!("> ");
         stdout().flush().unwrap();
@@ -159,6 +167,7 @@ fn main() {
         };
 
         if replay {
+            clear_terminal();
             println!(" ");
             println!("Starting new round...");
             println!(" ");
